@@ -7,7 +7,10 @@
   "capabilities": [
     "hosts.read",
     "snippets.read",
-    "terminal.write"
+    "terminal.write",
+    "workspace.read",
+    "storage.read",
+    "storage.write"
   ],
   "contributes": {
     "actions": [
@@ -27,6 +30,13 @@
         "id": "basic.dashboard",
         "title": "Basic Dashboard",
         "icon": "shippingbox.fill"
+      }
+    ],
+    "settings": [
+      {
+        "id": "basic.preferences",
+        "title": "Basic Preferences",
+        "icon": "slider.horizontal.3"
       }
     ]
   }

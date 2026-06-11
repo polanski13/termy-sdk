@@ -2,7 +2,7 @@
 
 TypeScript SDK for authoring Termy community plugins.
 
-The package provides types, `definePlugin()`, and a manifest schema. It does not provide a runtime. Termy loads the compiled JavaScript plugin in its own helper process and exposes only the SDK methods backed by granted capabilities.
+The package provides types, `definePlugin()`, and a manifest schema. It does not provide a runtime. Termy loads the compiled JavaScript plugin in its own helper process and exposes only SDK methods backed by granted capabilities.
 
 ## Install
 
@@ -37,7 +37,19 @@ export default definePlugin({
     });
 
     ctx.registerPane("example.dashboard", async () => {
-      return ctx.ui.empty("Dashboard", "Ready");
+      const workspace = await ctx.workspace.current();
+      const opens = Number((await ctx.storage.get("opens")) ?? 0) + 1;
+      await ctx.storage.set("opens", opens);
+
+      return ctx.ui.stack([
+        ctx.ui.statGrid({
+          stats: [
+            { id: "opens", title: "Opens", value: opens },
+            { id: "terminal", title: "Focused terminal", value: workspace.focusedPaneHasTerminal }
+          ]
+        }),
+        ctx.ui.empty("Dashboard", "Ready")
+      ]);
     });
   }
 });
@@ -52,13 +64,16 @@ export default definePlugin({
   "version": "1.0.0",
   "termyApiVersion": "1",
   "entry": "dist/index.js",
-  "capabilities": ["hosts.read"],
+  "capabilities": ["hosts.read", "workspace.read", "storage.read", "storage.write"],
   "contributes": {
     "actions": [
       { "id": "example.showHosts", "title": "Example: Show Hosts" }
     ],
     "panes": [
       { "id": "example.dashboard", "title": "Example Dashboard" }
+    ],
+    "settings": [
+      { "id": "example.settings", "title": "Example Settings" }
     ]
   }
 }
@@ -112,8 +127,48 @@ Termy grants capabilities per installed plugin. SDK calls fail when the matching
 | `hosts.read` | `ctx.hosts.list()` |
 | `snippets.read` | `ctx.snippets.list()` |
 | `terminal.write` | `ctx.terminal.insert(text)`, `ctx.terminal.run(text)` |
+| `workspace.read` | `ctx.workspace.current()` |
+| `storage.read` | `ctx.storage.get(key)`, `ctx.storage.keys()` |
+| `storage.write` | `ctx.storage.set(key, value)`, `ctx.storage.remove(key)` |
 
 Plugins do not receive Node APIs, arbitrary filesystem access, network access, Keychain access, SSH credentials, or terminal scrollback through the v1 SDK.
+
+## Native UX APIs
+
+SDK 0.2 adds native schema blocks for richer Termy panes:
+
+```ts
+ctx.ui.statGrid({
+  stats: [{ id: "hosts", title: "Hosts", value: 3 }]
+});
+
+ctx.ui.list({
+  items: [{ id: "prod", title: "prod", subtitle: "deploy@example.com" }]
+});
+
+ctx.ui.form({
+  id: "settings",
+  fields: [
+    { id: "label", title: "Label", type: "text", value: "Ops" },
+    { id: "enabled", title: "Enabled", type: "checkbox", value: true }
+  ],
+  actions: [{ id: "example.save", title: "Save", submitFormId: "settings" }]
+});
+```
+
+Register settings with the same schema surface:
+
+```ts
+ctx.registerSettings("example.settings", async (event) => {
+  if (event?.formValues?.label) {
+    await ctx.storage.set("label", event.formValues.label);
+  }
+  return ctx.ui.form({
+    id: "example.settings.form",
+    fields: [{ id: "label", title: "Label", type: "text", value: await ctx.storage.get("label") }]
+  });
+});
+```
 
 ## Local example
 

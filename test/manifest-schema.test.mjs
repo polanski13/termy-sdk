@@ -13,10 +13,11 @@ const validManifest = {
   version: "1.0.0",
   termyApiVersion: "1",
   entry: "dist/index.js",
-  capabilities: ["hosts.read", "snippets.read"],
+  capabilities: ["hosts.read", "snippets.read", "workspace.read", "storage.read", "storage.write"],
   contributes: {
     actions: [{ id: "valid.show", title: "Show" }],
-    panes: [{ id: "valid.main", title: "Main" }]
+    panes: [{ id: "valid.main", title: "Main" }],
+    settings: [{ id: "valid.settings", title: "Settings" }]
   }
 };
 
@@ -44,6 +45,20 @@ test("rejects missing contribution titles", () => {
       contributes: {
         actions: [{ id: "valid.show" }],
         panes: []
+      }
+    }),
+    false
+  );
+});
+
+test("rejects invalid settings contributions", () => {
+  assert.equal(
+    validate({
+      ...validManifest,
+      contributes: {
+        actions: validManifest.contributes.actions,
+        panes: validManifest.contributes.panes,
+        settings: [{ id: "valid..settings", title: "Settings" }]
       }
     }),
     false
