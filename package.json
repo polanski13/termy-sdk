@@ -1,5 +1,5 @@
 {
-  "name": "@termy/sdk",
+  "name": "@apolanski13/termy-sdk",
   "version": "0.1.0",
   "description": "TypeScript authoring SDK for Termy community plugins.",
   "license": "MIT",

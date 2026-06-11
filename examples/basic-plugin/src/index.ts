@@ -1,4 +1,4 @@
-import { definePlugin } from "@termy/sdk";
+import { definePlugin } from "@apolanski13/termy-sdk";
 
 export default definePlugin({
   async activate(ctx) {

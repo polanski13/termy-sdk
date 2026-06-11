@@ -25,7 +25,7 @@ try {
           typecheck: "tsc --noEmit"
         },
         dependencies: {
-          "@termy/sdk": join(rootPath, packed.filename)
+          "@apolanski13/termy-sdk": join(rootPath, packed.filename)
         },
         devDependencies: {
           typescript: "^5.9.3"
@@ -38,8 +38,8 @@ try {
   await writeFile(
     join(temp, "index.ts"),
     [
-      'import { definePlugin } from "@termy/sdk";',
-      'import manifestSchema from "@termy/sdk/manifest-schema";',
+      'import { definePlugin } from "@apolanski13/termy-sdk";',
+      'import manifestSchema from "@apolanski13/termy-sdk/manifest-schema";',
       "void manifestSchema;",
       "export default definePlugin({",
       "  activate(ctx) {",

@@ -6,7 +6,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {
-    "@termy/sdk": "file:../..",
+    "@apolanski13/termy-sdk": "file:../..",
     "typescript": "^5.9.3"
   }
 }

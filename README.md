@@ -1,4 +1,4 @@
-# @termy/sdk
+# @apolanski13/termy-sdk
 
 TypeScript SDK for authoring Termy community plugins.
 
@@ -7,7 +7,7 @@ The package provides types, `definePlugin()`, and a manifest schema. It does not
 ## Install
 
 ```sh
-npm install @termy/sdk
+npm install @apolanski13/termy-sdk
 ```
 
 ## Plugin shape
@@ -22,7 +22,7 @@ my-plugin.termy-plugin/
 ## Basic plugin
 
 ```ts
-import { definePlugin } from "@termy/sdk";
+import { definePlugin } from "@apolanski13/termy-sdk";
 
 export default definePlugin({
   async activate(ctx) {
@@ -67,7 +67,7 @@ export default definePlugin({
 The manifest schema is published at:
 
 ```ts
-import manifestSchema from "@termy/sdk/manifest-schema";
+import manifestSchema from "@apolanski13/termy-sdk/manifest-schema";
 ```
 
 ## Build guidance
@@ -75,7 +75,7 @@ import manifestSchema from "@termy/sdk/manifest-schema";
 Termy v1 expects the compiled entry file to keep this shape:
 
 ```ts
-import { definePlugin } from "@termy/sdk";
+import { definePlugin } from "@apolanski13/termy-sdk";
 
 export default definePlugin({
   activate(ctx) {}
@@ -127,7 +127,7 @@ The example plugin is in `examples/basic-plugin`.
 
 ## Publishing this SDK
 
-The package is intended to be published as public npm package `@termy/sdk`.
+The package is intended to be published as public npm package `@apolanski13/termy-sdk`.
 
 For scoped public packages, publish with:
 
