@@ -1,0 +1,67 @@
+{
+  "name": "@termy/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript authoring SDK for Termy community plugins.",
+  "license": "MIT",
+  "type": "module",
+  "author": "polanski13",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polanski13/termy-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polanski13/termy-sdk/issues"
+  },
+  "homepage": "https://github.com/polanski13/termy-sdk#readme",
+  "keywords": [
+    "termy",
+    "plugin",
+    "sdk",
+    "typescript",
+    "macos"
+  ],
+  "files": [
+    "dist",
+    "schema",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./manifest-schema": {
+      "types": "./schema/manifest-schema.d.ts",
+      "default": "./schema/manifest.v1.schema.json"
+    },
+    "./manifest-schema.json": {
+      "types": "./schema/manifest-schema.d.ts",
+      "default": "./schema/manifest.v1.schema.json"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test-d/tsconfig.json",
+    "test": "npm run build && npm run build:example && node --test test/*.test.mjs",
+    "build:example": "tsc -p examples/basic-plugin/tsconfig.json",
+    "verify:pack": "npm test && npm pack --dry-run && node scripts/verify-packed-install.mjs",
+    "prepublishOnly": "npm run verify:pack"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22.14.0",
+    "npm": ">=11.5.1"
+  }
+}

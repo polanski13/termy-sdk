@@ -1,0 +1,33 @@
+{
+  "id": "community.example.basic",
+  "name": "Basic Termy Plugin",
+  "version": "1.0.0",
+  "termyApiVersion": "1",
+  "entry": "dist/index.js",
+  "capabilities": [
+    "hosts.read",
+    "snippets.read",
+    "terminal.write"
+  ],
+  "contributes": {
+    "actions": [
+      {
+        "id": "basic.showSummary",
+        "title": "Basic: Show Summary",
+        "icon": "puzzlepiece.extension.fill"
+      },
+      {
+        "id": "basic.insertDate",
+        "title": "Basic: Insert Date",
+        "icon": "terminal.fill"
+      }
+    ],
+    "panes": [
+      {
+        "id": "basic.dashboard",
+        "title": "Basic Dashboard",
+        "icon": "shippingbox.fill"
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "basic-termy-plugin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@termy/sdk": "file:../..",
+    "typescript": "^5.9.3"
+  }
+}
